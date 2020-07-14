@@ -6,10 +6,10 @@ import (
 	"os"
 	"testing"
 
-	"github.com/jinzhu/gorm"
-	"github.com/joho/godotenv"
 	"github.com/ControlAltCode/pets/api/controllers"
 	"github.com/ControlAltCode/pets/api/models"
+	"github.com/jinzhu/gorm"
+	"github.com/joho/godotenv"
 )
 
 var server = controllers.Server{}
@@ -37,16 +37,6 @@ func Database() {
 
 	TestDbDriver := os.Getenv("TestDbDriver")
 
-	if TestDbDriver == "mysql" {
-		DBURL := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", os.Getenv("TestDbUser"), os.Getenv("TestDbPassword"), os.Getenv("TestDbHost"), os.Getenv("TestDbPort"), os.Getenv("TestDbName"))
-		server.DB, err = gorm.Open(TestDbDriver, DBURL)
-		if err != nil {
-			fmt.Printf("Cannot connect to %s database\n", TestDbDriver)
-			log.Fatal("This is the error:", err)
-		} else {
-			fmt.Printf("We are connected to the %s database\n", TestDbDriver)
-		}
-	}
 	if TestDbDriver == "postgres" {
 		DBURL := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable password=%s", os.Getenv("TestDbHost"), os.Getenv("TestDbPort"), os.Getenv("TestDbUser"), os.Getenv("TestDbName"), os.Getenv("TestDbPassword"))
 		server.DB, err = gorm.Open(TestDbDriver, DBURL)
@@ -57,19 +47,30 @@ func Database() {
 			fmt.Printf("We are connected to the %s database\n", TestDbDriver)
 		}
 	}
-	if TestDbDriver == "sqlite3" {
-		//DBURL := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable password=%s", DbHost, DbPort, DbUser, DbName, DbPassword)
-		testDbName := os.Getenv("TestDbName")
-		server.DB, err = gorm.Open(TestDbDriver, testDbName)
-		if err != nil {
-			fmt.Printf("Cannot connect to %s database\n", TestDbDriver)
-			log.Fatal("This is the error:", err)
-		} else {
-			fmt.Printf("We are connected to the %s database\n", TestDbDriver)
+	/*
+		if TestDbDriver == "mysql" {
+			DBURL := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", os.Getenv("TestDbUser"), os.Getenv("TestDbPassword"), os.Getenv("TestDbHost"), os.Getenv("TestDbPort"), os.Getenv("TestDbName"))
+			server.DB, err = gorm.Open(TestDbDriver, DBURL)
+			if err != nil {
+				fmt.Printf("Cannot connect to %s database\n", TestDbDriver)
+				log.Fatal("This is the error:", err)
+			} else {
+				fmt.Printf("We are connected to the %s database\n", TestDbDriver)
+			}
 		}
-		server.DB.Exec("PRAGMA foreign_keys = ON")
-	}
-
+		if TestDbDriver == "sqlite3" {
+			//DBURL := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable password=%s", DbHost, DbPort, DbUser, DbName, DbPassword)
+			testDbName := os.Getenv("TestDbName")
+			server.DB, err = gorm.Open(TestDbDriver, testDbName)
+			if err != nil {
+				fmt.Printf("Cannot connect to %s database\n", TestDbDriver)
+				log.Fatal("This is the error:", err)
+			} else {
+				fmt.Printf("We are connected to the %s database\n", TestDbDriver)
+			}
+			server.DB.Exec("PRAGMA foreign_keys = ON")
+		}
+	*/
 }
 
 func refreshUserTable() error {
