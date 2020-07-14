@@ -1,0 +1,11 @@
+*.sqlite
+*.idea/*
+*.idea
+*.idea/.*
+*.circleci
+*.circleci/.*
+*.sqlite
+.DS_Store
+Dockerfile
+docker-compose.yml
+.env
